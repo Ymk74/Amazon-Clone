@@ -22,9 +22,19 @@ class Product(models.Model):
     quantity = models.IntegerField(_('Quantity'))
     brand = models.ForeignKey('Brand',verbose_name=_('Brand'), related_name='produc_brand', on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return self.name
+    
+
+
 class ProductImages(models.Model):
     product = models.ForeignKey(Product ,verbose_name=_('Product'), related_name='product_image', on_delete=models.CASCADE)
     image = models.ImageField(_('Image'),upload_to='product_images')
+    def __str__(self):
+        return str(self.product)
+    
+
+
 
 class Brand(models.Model):
     name = models.CharField(_('Name'),max_length=100)
@@ -40,6 +50,9 @@ class Review(models.Model):
     review = models.CharField(_('Review'),max_length=300)
     created_at = models.DateField(_('Created at'),default=timezone.now)
 
+    def __str__(self):
+        return f"{self.user} - {self.product}" 
+    
 
 
 
