@@ -1,0 +1,19 @@
+product :
+- name
+- image
+- flag
+- review :
+    - image
+    - user
+    - date
+    - rate
+    - review
+- price
+- sku
+- brand
+- reviews count
+- subtitle
+- tags
+- description
+- related items
+- quantity
