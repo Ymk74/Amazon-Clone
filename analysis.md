@@ -5,7 +5,6 @@ product :
 - flag
 - review :
     - image
-    - user
     - date
     - rate
     - review
