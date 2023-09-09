@@ -1,11 +1,93 @@
 from django.shortcuts import render
 from django.views.generic import ListView , DetailView
 from .models import Product ,Brand ,ProductImages ,Review
+from django.db.models import Q , F , Value
+from django.db.models.aggregates import Max , Min , Count , Avg , Sum
+
 
 # Create your views here.
 
 def queryset_debug(request):
-    data = Product.objects.all()
+    #data = Product.objects.select_related('brand').all()  # prefetch_related = many-to-many
+    #data = Product.objects.filter(price__gt=70)
+    #data = Product.objects.filter(price__gte=70)
+    #data = Product.objects.filter(price__lt=70)
+    #data = Product.objects.filter(price__lt=70)
+    #data = Product.objects.filter(price__range= (65,70))
+
+    # navigate_relation
+    #data = Product.objects.filter(brand__name='Apple')
+    #data = Product.objects.filter(brand__price__gt=20)
+
+    # filter with text
+    #data = Product.objects.filter(name__contains='Brown')
+    #data = Product.objects.filter(name__startswith='Grac')
+    #data = Product.objects.filter(name__endswith='Brown')
+    #data = Product.objects.filter(tags__isnull=True)
+
+
+    # filter with date time
+    #data = Review.objects.filter(created_at__year=2023)
+    #data = Review.objects.filter(created_at__month=2023)
+
+    #filter 2 values
+    #data = Product.objects.filter(price__gt=80 , quantity__lt=10) # and
+    #data = Product.objects.filter(
+    #    Q(price__gt=80) |
+    #    Q(price__gt=80 )
+    #    ) # or
+
+    #    data = Product.objects.filter(
+    #    Q(price__gt=80) &
+    #    Q(price__gt=80 )
+    #    ) # and
+
+    #data = Product.objects.filter(
+    #    Q(price__gt=80) &
+    #    ~Q(price__gt=80 )
+    #    ) # and with not
+
+    #عشان اقارن عمود بعمود
+    #data = Product.objects.filter(price=F('quantity'))
+
+    # ordering
+    #data = Product.objects.all().order_by('name')   #Asc
+    #data = Product.objects.order_by('name')         #Asc
+    #data = Product.objects.order_by('-name')        # Dec
+    #data = Product.objects.order_by('name').reverse()         # Dec
+    #data = Product.objects.order_by('name','-quantity')    
+    #data = Product.objects.order_by('name','quantity')  
+
+
+    #data = Product.objects.order_by('name')[0]   # first     
+    #data = Product.objects.order_by('name','quantity')[-1]    # last 
+
+    #data = Product.objects.earliest('name')   # first     
+    #data = Product.objects.latest('name','quantity')   # last 
+
+    # slice
+    #data = Product.objects.all()[:10]
+
+    # select columns
+    #data = Product.objects.values('name','price')
+    #data = Product.objects.values('name','price','brand_name')
+    #data = Product.objects.values_list('name','price','brand__name')
+
+    # remove duplicate
+    #data = Product.objects.all().distinct()
+
+    # 
+    #data = Product.objects.only('name' , 'price')
+    #data = Product.objects.defer('slug','description')
+
+    # aggregation 
+    #data = Product.objects.aggregate(Sum('quantity'))
+    #data = Product.objects.aggregate(Avg('price'))
+
+    
+    # annotate 
+    data = Product.objects.annotate(price_with_tax=F('price')*1.2)
+
     return render(request , 'product\debug.html',{'data':data})
 
 
