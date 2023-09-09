@@ -3,6 +3,14 @@ from django.views.generic import ListView , DetailView
 from .models import Product ,Brand ,ProductImages ,Review
 
 # Create your views here.
+
+def queryset_debug(request):
+    data = Product.objects.all()
+    return render(request , 'product\debug.html',{'data':data})
+
+
+
+
 class ProductList(ListView):
     model = Product
 
