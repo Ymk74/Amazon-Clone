@@ -5,10 +5,10 @@ import datetime
 from django.utils import timezone
 from utils.generate_code import generate_code
 
-CART_STATUS = (
+CART_STATUS = [
     ('InProgress' , 'InProgress'),
     ('Completed' , 'Completed'),
-)
+]
 
 class Cart(models.Model):
     user = models.ForeignKey(User,related_name='cart_user',on_delete=models.SET_NULL,null=True,blank=True)
@@ -31,12 +31,12 @@ class CartDetail(models.Model):
 
 
 
-ORDER_STATUS = (
+ORDER_STATUS = [
     ('Received','Received'),
     ('Processed','Processed'),
     ('Shipped','Shipped'),
     ('Delivered','Delivered')
-)
+]
 
 class Order(models.Model):
     user = models.ForeignKey(User,related_name='order_user',on_delete=models.SET_NULL,null=True,blank=True)
