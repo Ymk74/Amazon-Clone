@@ -15,7 +15,7 @@ class Cart(models.Model):
     status = models.CharField(max_length=10,choices=CART_STATUS)
 
     def __str__(self):
-        return self(self.user)
+        return str(self.user)
     
 
 
@@ -26,7 +26,7 @@ class CartDetail(models.Model):
     total = models.FloatField(null=True,blank=True)
 
     def __str__(self):
-        return self(self.cart)
+        return str(self.cart)
     
 
 
@@ -47,7 +47,7 @@ class Order(models.Model):
     coupon = models.ForeignKey('Coupon',related_name='order_coupon',on_delete=models.SET_NULL,null=True,blank=True)
     total_After_coupon = models.FloatField(null=True,blank=True)
     def __str__(self):
-        return self(self.user)
+        return str(self.user)
     
 
 
@@ -61,7 +61,7 @@ class OrderDetail(models.Model):
     total = models.FloatField(null=True,blank=True)
     # coupon = models.ForeignKey()
     def __str__(self):
-        return self(self.order)
+        return str(self.order)
     
 
 
@@ -75,7 +75,7 @@ class Coupon(models.Model):
     end_date = models.DateField(null=True,blank=True)
 
     def __str__(self):
-        return self.code
+        return str.code
     
     def save(self, *args, **kwargs):
         week = datetime.timedelta(days=7)
