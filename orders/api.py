@@ -65,3 +65,8 @@ class OrderListAPI(generics.ListAPIView):
     #     queryset = super(OrderListAPI, self).get_queryset()
     #     queryset = queryset.filter(user=user)
     #     return queryset
+
+
+class OrderDetailAPI(generics.RetrieveAPIView):
+    serializer_class = OrderListSerializer
+    queryset = Order.objects.all()
