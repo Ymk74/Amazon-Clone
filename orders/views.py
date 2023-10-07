@@ -20,15 +20,20 @@ class OrderList(LoginRequiredMixin,ListView):
 def add_to_cart(request):
     quantity = request.POST['quantity']
     product = Product.objects.get(id=request.POST['product_id'])
-    
     cart = Cart.objects.get(user= request.user , status= 'InProgress')
     cart_detail , created = CartDetail.objects.get_or_create(cart=cart,product=product )
-    
     cart_detail.quantity = int(quantity)
     cart_detail.total = round( int(quantity)* product.price, 2)
     cart_detail.save()
-
     return redirect(f'/products/{product.slug}')
+
+
+def remove_from_cart(request,id):
+    cart_detail = CartDetail.objects.get(id=id)
+    cart_detail.delete()
+    return redirect('/products/')
+
+
 
 @login_required
 def checkout(request):
