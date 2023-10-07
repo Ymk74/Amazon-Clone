@@ -70,3 +70,35 @@ class OrderListAPI(generics.ListAPIView):
 class OrderDetailAPI(generics.RetrieveAPIView):
     serializer_class = OrderListSerializer
     queryset = Order.objects.all()
+
+
+
+class CreateOrderAPI(generics.GenericAPIView):
+
+    def get(self,request,*args, **kwargs):
+        user = User.objects.get(username=self.kwargs['username'])
+        cart = Cart.objects.get(user=user,status='InProgress')
+        cart_detail = CartDetail.objects.filter(cart=cart)
+
+        # cart ===> order
+        new_order = Order.objects.create(
+            user = user ,
+            coupon = cart.coupon , 
+            total_After_coupon = cart.total_After_coupon
+        )
+        # cart_detail ===> order_detail  ===> loop
+        for object in cart_detail:
+            OrderDetail.objects.create(
+                order = new_order , 
+                product = object.product , 
+                quantity = object.quantity ,
+                price = object.product.price , 
+                total = round(int(object.quantity)*object.product.price,2)
+            )
+
+        cart.status = 'Completed'
+        cart.save()
+        return Response({'message' , 'Order Created Successfully'})
+
+class ApplyCouponAPI(generics.GenericAPIView):
+    pass
