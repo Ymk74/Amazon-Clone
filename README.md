@@ -63,4 +63,4 @@ To run the Amazon Clone project locally, follow these steps:
 ![](screenshot.png)
 
 
-   Make sure you have Python and Django installed on your machine before running the project.
+# Make sure you have Python and Django installed on your machine before running the project.
