@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.db.models import Count
 from product.models import Product , Brand , Review
+from django.views.decorators.cache import cache_page
+
 # Create your views here.
 
+@cache_page(60 * 60 * 24)
 def home(request):
     brands = Brand.objects.all().annotate(product_count=Count('product_brand'))
     sale_products = Product.objects.filter(flag='Sale')[:10]
