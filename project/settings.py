@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'orders',
     'rosetta',
+    'drf_yasg',
 
 ]
 
