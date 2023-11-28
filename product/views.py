@@ -94,7 +94,7 @@ def queryset_debug(request):
     # annotate 
     # data = Product.objects.annotate(price_with_tax=F('price')*1.2)
 
-    data = Product.objects.get(id=100)
+    data = Product.objects.all()
 
     send_emails.delay()
 
