@@ -213,3 +213,8 @@ LANGUAGES = [
 # settings.py
 CELERY_BROKER_URL = 'redis://myredis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://myredis:6379/0'
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.EmailOrUsernameModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
