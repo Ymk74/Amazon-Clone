@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.core.mail import send_mail
 
-
+from django.conf import settings
 
 
 def signup(request):
@@ -23,7 +23,7 @@ def signup(request):
             send_mail(
                 "Activate Your Account",
                 f"Welcome {username} \nuse this code {profile.code} to activate your account",
-                "adhamgeka1@gmail.com",
+                settings.EMAIL_HOST_USER,
                 [email],
                 fail_silently=False,
                 )
@@ -44,11 +44,11 @@ def activate(request,username):
             code = form.cleaned_data['code']
             if code == profile.code :
                 profile.code = ''
-                profile.save()
 
-                user = User.objects.get(user=profile.user)
+                user = User.objects.get(username=profile.user.username)
                 user.is_activate = True
                 user.save()
+                profile.save()
                 
 
 
